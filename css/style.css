@@ -35,6 +35,7 @@ body .warning-note{
     background-color: black;
 }
 body .info{
+    display: block;
     width: 100pct;
     height: 100pct;
     margin: 15px;

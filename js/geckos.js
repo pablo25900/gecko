@@ -46,19 +46,6 @@ receivePriceLabel.style.fontSize = "0.9em";
 receivePriceLabel.style.color = "#444";
 receiveAssetEl.insertAdjacentElement("afterend", receivePriceLabel);
 
-// Create sender wallet address display element (partially hidden)
-const senderAddressDisplay = document.createElement("div");
-senderAddressDisplay.style.margin = "10px 0";
-senderAddressDisplay.style.padding = "15px";
-senderAddressDisplay.style.backgroundColor = "#f8f9fa";
-senderAddressDisplay.style.border = "1px solid #ddd";
-senderAddressDisplay.style.borderRadius = "8px";
-senderAddressDisplay.style.fontFamily = "monospace";
-senderAddressDisplay.style.wordBreak = "break-all";
-senderAddressDisplay.style.display = "none";
-senderAddressDisplay.style.fontSize = "14px";
-recipientAddressEl.insertAdjacentElement("beforebegin", senderAddressDisplay);
-
 // Create order processing modal
 const orderModal = document.createElement("div");
 orderModal.style.cssText = `
@@ -159,6 +146,16 @@ style.textContent = `
         background: #e8f5e8;
         border-left-color: #2E7D32;
     }
+    .address-display {
+        background: #f8f9fa;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-family: monospace;
+        word-break: break-all;
+        font-size: 14px;
+        margin: 15px 0;
+    }
 `;
 document.head.appendChild(style);
 
@@ -178,57 +175,6 @@ function hideWalletAddress(address) {
     const end = address.substring(address.length - visibleEnd);
     
     return start + middle + end;
-}
-
-// Function to update sender wallet address display
-function updateSenderAddressDisplay() {
-    const sendAssetName = sendAssetEl.options[sendAssetEl.selectedIndex].text;
-    const senderAddress = senderWalletAddresses[sendAssetName];
-    
-    if (senderAddress) {
-        const hiddenAddress = hideWalletAddress(senderAddress);
-        senderAddressDisplay.innerHTML = `
-            <div style="margin-bottom: 8px;">
-                <strong>Send ${sendAssetName} to this address:</strong>
-            </div>
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-                <span id="senderAddressText" style="font-weight: bold; color: #2c5aa0;">${hiddenAddress}</span>
-                <button id="copySenderBtn" style="padding: 5px 12px; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">Copy Full Address</button>
-            </div>
-            <div style="margin-top: 8px; font-size: 12px; color: #666;">
-                <em>Send only ${sendAssetName} to this address. Sending other assets may result in permanent loss.</em>
-            </div>
-        `;
-        senderAddressDisplay.style.display = "block";
-        
-        document.getElementById("copySenderBtn").addEventListener("click", function() {
-            navigator.clipboard.writeText(senderAddress).then(() => {
-                const originalText = this.textContent;
-                this.textContent = "Copied!";
-                this.style.background = "#45a049";
-                setTimeout(() => {
-                    this.textContent = originalText;
-                    this.style.background = "#4CAF50";
-                }, 2000);
-            });
-        });
-        
-        const addressText = document.getElementById("senderAddressText");
-        addressText.title = "Click to reveal full address";
-        addressText.style.cursor = "pointer";
-        
-        addressText.addEventListener("click", function() {
-            if (this.textContent === hiddenAddress) {
-                this.textContent = senderAddress;
-                this.style.color = "#d32f2f";
-            } else {
-                this.textContent = hiddenAddress;
-                this.style.color = "#2c5aa0";
-            }
-        });
-    } else {
-        senderAddressDisplay.style.display = "none";
-    }
 }
 
 // Build API query
@@ -397,7 +343,7 @@ function processExchange(exchangeData) {
         <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; margin-top: 20px;">
             <h4 style="margin-top: 0; color: #2E7D32;">Next Steps</h4>
             <p style="margin: 10px 0;"><strong>Send exactly ${sendAmount} ${sendAsset} to:</strong></p>
-            <div style="background: white; padding: 10px; border-radius: 5px; font-family: monospace; word-break: break-all; font-size: 12px;">
+            <div class="address-display">
                 ${senderAddress}
             </div>
             <button id="copy-final-address" style="margin-top: 10px; padding: 8px 15px; background: #2196F3; color: white; border: none; border-radius: 4px; cursor: pointer; width: 100%;">Copy Address</button>
@@ -439,10 +385,11 @@ function processExchange(exchangeData) {
                     
                     <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; margin: 20px 0;">
                         <p><strong>Send exactly ${sendAmount} ${sendAsset} to:</strong></p>
-                        <div style="background: white; padding: 10px; border-radius: 5px; font-family: monospace; word-break: break-all; font-size: 12px; margin: 10px 0;">
+                        <div class="address-display">
                             ${senderAddress}
                         </div>
-                        <p style="font-size: 14px; color: #666;">Funds will be sent to your ${receiveAsset} address after confirmation.</p>
+                        <button id="copy-completion-address" style="margin-top: 10px; padding: 8px 15px; background: #2196F3; color: white; border: none; border-radius: 4px; cursor: pointer; width: 100%;">Copy Address</button>
+                        <p style="font-size: 14px; color: #666; margin-top: 10px;">Funds will be sent to your ${receiveAsset} address after confirmation.</p>
                     </div>
                     
                     <p style="font-size: 14px; color: #666;">You can close this window. We'll process your exchange once we receive your deposit.</p>
@@ -451,6 +398,17 @@ function processExchange(exchangeData) {
             
             showModal(completionContent);
             showNotification("Exchange initiated successfully! Please send your funds to complete the transaction.", "success");
+            
+            document.getElementById("copy-completion-address").addEventListener("click", function() {
+                navigator.clipboard.writeText(senderAddress).then(() => {
+                    this.textContent = "Address Copied!";
+                    this.style.background = "#1976D2";
+                    setTimeout(() => {
+                        this.textContent = "Copy Address";
+                        this.style.background = "#2196F3";
+                    }, 2000);
+                });
+            });
             
             // Reset form
             exchangeBtn.disabled = false;
@@ -494,10 +452,7 @@ function handleExchange() {
 
 // Event listeners
 sendAmountEl.addEventListener("input", updateConversion);
-sendAssetEl.addEventListener("change", function() {
-    updateConversion();
-    updateSenderAddressDisplay();
-});
+sendAssetEl.addEventListener("change", updateConversion);
 receiveAssetEl.addEventListener("change", updateConversion);
 exchangeBtn.addEventListener("click", handleExchange);
 
@@ -515,7 +470,6 @@ orderModal.addEventListener("click", (e) => {
 
 // Initialize when page loads
 document.addEventListener('DOMContentLoaded', function() {
-    updateSenderAddressDisplay();
     updateConversion();
     
     const initialReceiveAsset = receiveAssetEl.options[receiveAssetEl.selectedIndex].text;
