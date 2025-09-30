@@ -7,8 +7,9 @@ body{
     font-family: monospace;
     margin: 15px;
     padding: 10px;
+    color: white;
     text-align: center;
-    background-color: #E5E4E2;
+    background-color: #1A1110;
 
 }
 marquee{
@@ -40,8 +41,8 @@ body .info{
     height: 100pct;
     margin: 15px;
     padding: 8px;
-    background-color: #F0FFFF;
-    border: solid 1.5px white;
+    background-color: #013220;
+    border: solid 1.5px #013220;
     border-radius: 5px;
     box-shadow: 20px;
 
@@ -57,10 +58,10 @@ body .faqs-title{
 body .faqs-all{
     margin: 10px;
     padding: 5px;
-    background:#F0FFFF;
-    border: #F0FFFF solid 1.5px;
+    background:#013220;
+    border: #013220 solid 1.5px;
     border-radius: 5px;
-    box-shadow: #F0FFFF 20px;
+    box-shadow: #013220 20px;
 }
 li{
     list-style-type: none;
@@ -69,7 +70,8 @@ input{
     width: 100pct;
     height: 100pct;
     border-radius: 5px;
-    background-color: #FFFFF0;
+    background-color: #353839;
+    color: #F2F3F4;
     text-align: center;
     margin: 12px;
     padding: 6px;
@@ -77,10 +79,10 @@ input{
 body svg{
     margin: 10px;
     padding: 5px;
-    background-color: #DFFFFD;
-    border: #DFFFFD solid 1.5px;
+    background-color: #013220;
+    border: #013220 solid 1.5px;
     border-radius: 2.5px;
-    box-shadow: #DFFFFD 20px;
+    box-shadow: #013220 20px;
     color: #FF7538;
 }
 button{
@@ -100,8 +102,8 @@ body .send-optn{
     height: 100pct;
     margin: 16px;
     padding: 8px;
-    background-color: #F0FFFF;
-    box-shadow: #F0FFFF 20px;
+    background-color: #013220;
+    box-shadow: #013220 20px;
     border-radius: 5px;
 }
 body .receive-optn{
@@ -109,8 +111,8 @@ body .receive-optn{
     height: 100pct;
     margin: 16px;
     padding: 8px;
-    background-color: #F0FFFF;
-    box-shadow: #F0FFFF 20px;
+    background-color: #013220;
+    box-shadow: #013220 20px;
     border-radius: 5px;
 }
 body option{
@@ -119,15 +121,15 @@ body option{
 body .swap-optn{
     margin: 16px;
     padding: 8px;
-    background:#F0FFFF;
-    box-shadow: #F0FFFF 20px;
+    background:#013220;
+    box-shadow: #013220 20px;
     border-radius: 5px;
 }
 body .refund-optn{
     margin: 16px;
     padding: 8px;
-    background:#F0FFFF;
-    box-shadow: #F0FFFF 20px;
+    background:#013220;
+    box-shadow: #013220 20px;
     border-radius: 5px;
 }
 body .tos-title {
@@ -149,19 +151,19 @@ body .privacy-title{
 body .privacy-all{
     margin: 10px;
     padding: 5px;
-    background:#F0FFFF;
-    border: #F0FFFF solid 1.5px;
+    background:#013220;
+    border: #013220 solid 1.5px;
     border-radius: 5px;
-    box-shadow: #F0FFFF 20px;
+    box-shadow: #013220 20px;
 
 }
 body .tos-all{
     margin: 10px;
     padding: 5px;
-    background:#F0FFFF;
-    border: #F0FFFF solid 1.5px;
+    background:#013220;
+    border: #013220 solid 1.5px;
     border-radius: 5px;
-    box-shadow: #F0FFFF 20px;
+    box-shadow: #013220 20px;
 
 }
 h2{
@@ -171,6 +173,14 @@ h2{
 h1{
     margin: 16px;
     padding: 8px;
+}
+body a {
+    margin: 16px;
+    padding: 8px;
+    color: #4B0082;
+}
+a:hover{
+    color: red;
 }
 
 

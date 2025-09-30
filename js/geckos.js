@@ -38,12 +38,12 @@ const exchangeBtn = document.getElementById("exchange-btn");
 // Create price labels under selects
 const sendPriceLabel = document.createElement("p");
 sendPriceLabel.style.fontSize = "0.9em";
-sendPriceLabel.style.color = "#444";
+sendPriceLabel.style.color = "#F2F3F4";
 sendAssetEl.insertAdjacentElement("afterend", sendPriceLabel);
 
 const receivePriceLabel = document.createElement("p");
 receivePriceLabel.style.fontSize = "0.9em";
-receivePriceLabel.style.color = "#444";
+receivePriceLabel.style.color = "#F2F3F4";
 receiveAssetEl.insertAdjacentElement("afterend", receivePriceLabel);
 
 // Create order processing modal
