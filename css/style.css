@@ -7,9 +7,14 @@ body{
     font-family: monospace;
     margin: 15px;
     padding: 10px;
-    color: white;
     text-align: center;
     background-color: #1A1110;
+
+}
+body .gecko-name{
+    margin: 10px;
+    padding: 5px;
+    color: #F0F8FF;
 
 }
 marquee{
@@ -41,6 +46,7 @@ body .info{
     height: 100pct;
     margin: 15px;
     padding: 8px;
+    color: white;
     background-color: #013220;
     border: solid 1.5px #013220;
     border-radius: 5px;
@@ -58,6 +64,7 @@ body .faqs-title{
 body .faqs-all{
     margin: 10px;
     padding: 5px;
+    color: white;
     background:#013220;
     border: #013220 solid 1.5px;
     border-radius: 5px;
@@ -65,6 +72,8 @@ body .faqs-all{
 }
 li{
     list-style-type: none;
+    margin: 6px;
+    padding: 3px;
 }
 input{
     width: 100pct;
@@ -128,6 +137,7 @@ body .swap-optn{
 body .refund-optn{
     margin: 16px;
     padding: 8px;
+    color: white;
     background:#013220;
     box-shadow: #013220 20px;
     border-radius: 5px;
@@ -151,6 +161,7 @@ body .privacy-title{
 body .privacy-all{
     margin: 10px;
     padding: 5px;
+    color: white;
     background:#013220;
     border: #013220 solid 1.5px;
     border-radius: 5px;
@@ -160,6 +171,7 @@ body .privacy-all{
 body .tos-all{
     margin: 10px;
     padding: 5px;
+    color: white;
     background:#013220;
     border: #013220 solid 1.5px;
     border-radius: 5px;
@@ -175,12 +187,23 @@ h1{
     padding: 8px;
 }
 body a {
-    margin: 16px;
-    padding: 8px;
+    margin: 6px;
+    padding: 3px;
     color: #4B0082;
 }
 a:hover{
     color: red;
+}
+body label{
+    color: white;
+}
+body .footer-content{
+    color: white;
+}
+div .copy-right{
+    margin: 10px;
+    padding: 5px;
+    color: white;
 }
 
 

@@ -39,11 +39,15 @@ const exchangeBtn = document.getElementById("exchange-btn");
 const sendPriceLabel = document.createElement("p");
 sendPriceLabel.style.fontSize = "0.9em";
 sendPriceLabel.style.color = "#F2F3F4";
+sendPriceLabel.style.margin = "10px";
+sendPriceLabel.style.padding = "5px";
 sendAssetEl.insertAdjacentElement("afterend", sendPriceLabel);
 
 const receivePriceLabel = document.createElement("p");
 receivePriceLabel.style.fontSize = "0.9em";
 receivePriceLabel.style.color = "#F2F3F4";
+receivePriceLabel.style.margin = "10px";
+receivePriceLabel.style.padding = "5px";
 receiveAssetEl.insertAdjacentElement("afterend", receivePriceLabel);
 
 // Create order processing modal
@@ -359,18 +363,18 @@ function processExchange(exchangeData) {
             setTimeout(() => {
                 this.textContent = "Copy Address";
                 this.style.background = "#2196F3";
-            }, 2000);
+            }, 60000);
         });
     });
     
     // Simulate processing steps
     setTimeout(() => {
         document.querySelectorAll('.order-step')[1].classList.add('active');
-    }, 2000);
+    }, 60000);
     
     setTimeout(() => {
         document.querySelectorAll('.order-step')[2].classList.add('active');
-    }, 4000);
+    }, 60000);
     
     setTimeout(() => {
         document.querySelectorAll('.order-step')[3].classList.add('active');
@@ -406,7 +410,7 @@ function processExchange(exchangeData) {
                     setTimeout(() => {
                         this.textContent = "Copy Address";
                         this.style.background = "#2196F3";
-                    }, 2000);
+                    }, 60000);
                 });
             });
             
@@ -414,8 +418,8 @@ function processExchange(exchangeData) {
             exchangeBtn.disabled = false;
             exchangeBtn.textContent = "EXCHANGE / SWAP";
             
-        }, 1000);
-    }, 2000);
+        }, 30000);
+    }, 60000);
 }
 
 // Function to handle exchange
