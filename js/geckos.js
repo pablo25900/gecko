@@ -198,20 +198,40 @@ function hideWalletAddress(address) {
 // Build API query
 const allCoinIds = Object.values(coinMap).join(",");
 
-// Cache prices to avoid refetch delays
+// Cache prices
 let cachedPrices = null;
 let lastFetchTime = 0;
-const fetchInterval = 3000; // fetch every 3s only
+const fetchInterval = 3000; // 3s cache
 
 async function fetchPrices() {
   const now = Date.now();
-  if (cachedPrices && (now - lastFetchTime < fetchInterval)) {
-    return cachedPrices; // return cache if still fresh
+
+  // Try loading from localStorage first
+  if (!cachedPrices) {
+    const saved = localStorage.getItem("cachedPrices");
+    const savedTime = localStorage.getItem("lastFetchTime");
+
+    if (saved && savedTime && (now - parseInt(savedTime) < fetchInterval)) {
+      cachedPrices = JSON.parse(saved);
+      lastFetchTime = parseInt(savedTime);
+      return cachedPrices;
+    }
   }
+
+  // If cache expired or missing, fetch fresh
+  if (cachedPrices && (now - lastFetchTime < fetchInterval)) {
+    return cachedPrices; // return in-memory cache
+  }
+
   const url = `https://api.coingecko.com/api/v3/simple/price?ids=${allCoinIds}&vs_currencies=usd`;
   const res = await fetch(url, { cache: "no-store" });
   cachedPrices = await res.json();
   lastFetchTime = now;
+
+  // Save to localStorage
+  localStorage.setItem("cachedPrices", JSON.stringify(cachedPrices));
+  localStorage.setItem("lastFetchTime", now.toString());
+
   return cachedPrices;
 }
 
