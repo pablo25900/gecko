@@ -201,7 +201,7 @@ const allCoinIds = Object.values(coinMap).join(",");
 // Cache prices
 let cachedPrices = null;
 let lastFetchTime = 0;
-const fetchInterval = 3000; // 3s cache
+const fetchInterval = 10000; // 10s cache
 
 async function fetchPrices() {
   const now = Date.now();
